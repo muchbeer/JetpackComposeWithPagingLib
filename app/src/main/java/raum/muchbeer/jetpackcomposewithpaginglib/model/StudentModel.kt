@@ -8,6 +8,6 @@ data class StudentModel(
      val course_name : String,
      var isDone : Boolean,
     @PrimaryKey(autoGenerate = true)
-     val course_code : Long = 0L
+     val course_code : Int = 0
 ) {
 }

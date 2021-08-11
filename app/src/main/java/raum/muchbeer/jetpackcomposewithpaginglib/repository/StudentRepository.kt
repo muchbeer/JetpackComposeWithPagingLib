@@ -1,5 +1,6 @@
 package raum.muchbeer.jetpackcomposewithpaginglib.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import raum.muchbeer.jetpackcomposewithpaginglib.database.StudentDao
@@ -13,6 +14,7 @@ class StudentRepository @Inject constructor(
     val retrieveLiveStudent : Flow<List<StudentModel>> = studentDao.getAllStudent()
 
     suspend fun addStudentCourse(studentCourse: StudentModel) {
+        Log.d("AddView", "ViewStuff")
         studentDao.insert(studentCourse)
     }
 

@@ -1,5 +1,6 @@
 package raum.muchbeer.jetpackcomposewithpaginglib.component.homepage
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -80,6 +81,7 @@ fun StudentList(
     mStudentVM: StudentViewModel
 ) {
     val context = LocalContext.current
+    Log.d("AddView", "ViewStuff")
 
     LazyColumn() {
        items(items = studentList, itemContent = { studentItem->

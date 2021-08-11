@@ -1,5 +1,6 @@
 package raum.muchbeer.jetpackcomposewithpaginglib.component
 
+import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ fun NavigationComponent() {
 
   //  NavHost(navController = , graph = )
  //   HandsOnKotlinTheme {
+    Log.d("AddView", "ViewStuff")
 
         NavHost(navController = navController, startDestination = NavGraph.Destinations.Home) {
             composable(NavGraph.Destinations.Home) { HomeView(navController) }

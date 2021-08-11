@@ -1,6 +1,7 @@
 package raum.muchbeer.jetpackcomposewithpaginglib.di
 
 import android.app.Application
+import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +17,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDatabase(app: Application ) : StudentDatabase {
+        Log.d("AddView", "ViewStuff")
         return StudentDatabase.getInstance(app)
     }
 

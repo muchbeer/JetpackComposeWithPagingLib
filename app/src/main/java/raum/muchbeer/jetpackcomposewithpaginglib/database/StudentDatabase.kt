@@ -1,6 +1,7 @@
 package raum.muchbeer.jetpackcomposewithpaginglib.database
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -16,6 +17,8 @@ abstract class StudentDatabase : RoomDatabase(){
         private var INSTANCE: StudentDatabase? = null
 
         fun getInstance(context: Context): StudentDatabase {
+            Log.d("AddView", "ViewStuff")
+
             synchronized(this) {
                 var instance = INSTANCE
 

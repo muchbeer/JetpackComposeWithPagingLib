@@ -1,6 +1,7 @@
 package raum.muchbeer.jetpackcomposewithpaginglib
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
@@ -28,5 +29,6 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
+    Log.d("AddView", "ViewStuff")
 
 }
