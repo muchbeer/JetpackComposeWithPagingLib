@@ -1,5 +1,6 @@
 package raum.muchbeer.jetpackcomposewithpaginglib.component.addstudent
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,7 +40,7 @@ fun AddView(navController: NavController) {
         floatingActionButton = {
             ExtendedFAB {
                 insertStudentInDB(inputViewModel._course_state.value, mStudentViewModel)
-
+                Log.d("AddView", "ViewStuff")
                 Toast.makeText(context, "Added Student", Toast.LENGTH_SHORT).show()
                 navController.navigate(NavGraph.Destinations.Home)
             }
