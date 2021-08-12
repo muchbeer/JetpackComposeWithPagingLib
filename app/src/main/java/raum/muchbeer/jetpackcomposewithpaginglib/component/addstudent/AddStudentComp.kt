@@ -2,18 +2,18 @@ package raum.muchbeer.jetpackcomposewithpaginglib.component.addstudent
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
@@ -57,15 +57,25 @@ fun AddView(navController: NavController) {
             }
         }
     ) {
-        InputFieldState(inputViewModel)
+        InputFieldState(inputViewModel, navController)
     }
 }
 
     @Composable
-    fun InputFieldState(inputViewModel: InputViewModel) {
+    fun InputFieldState(inputViewModel: InputViewModel, navController: NavController) {
         val course_name: String = inputViewModel._course_state.value
 
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            Row(modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start) {
+               IconButton(onClick = { navController.navigateUp() },
+               ) {
+                 //  Icon(painter = , contentDescription = )
+                   Icon(Icons.Filled.ArrowBack, contentDescription = "",
+                    tint = Color.DarkGray)
+               } 
+            }
+            Spacer(modifier = Modifier.padding( start =  10.dp, bottom = 16.dp))
             InputField(course_name) { inputViewModel.onInputChange(it) }
             Spacer(modifier = Modifier.padding(10.dp))
         }
@@ -118,7 +128,7 @@ fun AddView(navController: NavController) {
  }
 
 
-class InputViewModel(val mStudentViewModel: StudentViewModel) : ViewModel() {
+class InputViewModel( mStudentViewModel: StudentViewModel) : ViewModel() {
         private val _course: MutableState<String> = mStudentViewModel.setCourseNameUpdate
 
 
