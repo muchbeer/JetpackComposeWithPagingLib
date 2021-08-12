@@ -22,6 +22,9 @@ class StudentRepository @Inject constructor(
         studentDao.update(studentCourse)
     }
 
+    suspend fun updateInputCouser(studentCourse: String, course_code : Int) {
+        studentDao.updateCourse(studentCourse, course_code)
+    }
     suspend fun deleteStudent(studentCourse: StudentModel) {
         studentDao.delete(studentCourse)
     }

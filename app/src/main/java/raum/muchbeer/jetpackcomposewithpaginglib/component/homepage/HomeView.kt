@@ -2,6 +2,7 @@ package raum.muchbeer.jetpackcomposewithpaginglib.component.homepage
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -47,7 +48,7 @@ fun HomeView(navController: NavController) {
         modifier = Modifier.align(Alignment.CenterHorizontally) )
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
         CustomCardState(navController, mStudentViewModel)
-        StudentList(studentList = items, mStudentVM = mStudentViewModel)
+        StudentList(studentList = items, mStudentVM = mStudentViewModel, navController = navController)
         Spacer(modifier = Modifier.padding(top = 32.dp))
         //BackUpButton(mBackUpViewModel)
     }
@@ -78,8 +79,10 @@ fun CustomCardState(
 @Composable
 fun StudentList(
     studentList: List<StudentModel>,
-    mStudentVM: StudentViewModel
-) {
+    mStudentVM: StudentViewModel,
+    navController: NavController
+
+    ) {
     val context = LocalContext.current
     Log.d("AddView", "ViewStuff")
 
@@ -87,10 +90,15 @@ fun StudentList(
        items(items = studentList, itemContent = { studentItem->
            val name = rememberSaveable { mutableStateOf(studentItem.isDone) }
 
-         mStudentVM.onCheckboxChange(studentItem.isDone)
            ListItem(
                text = { Text(text = studentItem.course_name, maxLines = 1,
-               overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())},
+               overflow = TextOverflow.Ellipsis,
+                   modifier = Modifier.fillMaxWidth()
+                       .clickable {
+                    mStudentVM.setUpdateCourse(studentItem)
+                     navController.navigate(NavGraph.Destinations.AddStudent)
+
+                       })},
                icon = {
                    IconButton(onClick = {
                        mStudentVM.deleteCourse(studentItem)

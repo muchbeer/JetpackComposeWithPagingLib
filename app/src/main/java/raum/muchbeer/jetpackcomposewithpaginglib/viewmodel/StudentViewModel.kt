@@ -23,19 +23,14 @@ class StudentViewModel @Inject constructor(
     //alternative
     val allStudentState : MutableState<List<StudentModel>> = mutableStateOf(listOf())
 
-    private val _isDone: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isDone: StateFlow<Boolean> = _isDone
-//
+    val isCourseUpdate: MutableState<Boolean> = mutableStateOf(false)
 
+    val setCourseNameUpdate : MutableState<String> = mutableStateOf("")
+
+    val setCourseCode : MutableState<Int> = mutableStateOf(-1)
 
     init {
         settingStudentFlow()
-    }
-
-    fun onCheckboxChange(state: Boolean) {
-        Log.d("AddView", "ViewStuff")
-
-        this._isDone.value = state
     }
 
     private fun settingStudentFlow() = viewModelScope.launch {
@@ -51,10 +46,22 @@ class StudentViewModel @Inject constructor(
         }
     }
 
+    fun setUpdateCourse(studentModel: StudentModel) {
+        isCourseUpdate.value = true
+       this.setCourseNameUpdate.value = studentModel.course_name
+        this.setCourseCode.value = studentModel.course_code
+    }
+
+
+
     fun updateCourse(studentCourse: StudentModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateStudent(studentCourse = studentCourse)
         }
+    }
+
+    fun updateInputCourse(studentCourse: String, course_code : Int) = viewModelScope.launch {
+        repository.updateInputCouser(studentCourse, course_code)
     }
 
     fun deleteCourse(studentCourse: StudentModel) {

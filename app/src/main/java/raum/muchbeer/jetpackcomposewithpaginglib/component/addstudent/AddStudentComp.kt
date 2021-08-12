@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -28,21 +29,31 @@ import raum.muchbeer.jetpackcomposewithpaginglib.viewmodel.StudentViewModel
 
 @Composable
 fun AddView(navController: NavController) {
-    val inputViewModel = InputViewModel()
+
     val context = LocalContext.current
     val mStudentViewModel = hiltViewModel<StudentViewModel>(
         navController.getBackStackEntry(NavGraph.Destinations.Home)
-
     )
+    val inputViewModel = InputViewModel(mStudentViewModel)
 
 
     Scaffold(
         floatingActionButton = {
-            ExtendedFAB {
-                insertStudentInDB(inputViewModel._course_state.value, mStudentViewModel)
-                Log.d("AddView", "ViewStuff")
-                Toast.makeText(context, "Added Student", Toast.LENGTH_SHORT).show()
-                navController.navigate(NavGraph.Destinations.Home)
+            if (mStudentViewModel.isCourseUpdate.value) {
+                ExtendedFAB("Update") {
+                    upddateSelectedCourse(inputViewModel._course_state.value,mStudentViewModel = mStudentViewModel)
+                    mStudentViewModel.isCourseUpdate.value = false
+                    Toast.makeText(context, "Update Student Course: ${inputViewModel._course_state.value}",
+                        Toast.LENGTH_SHORT).show()
+                    navController.navigate(NavGraph.Destinations.Home)
+
+                }
+            } else {
+                ExtendedFAB(buttonMessage = "Save") {
+                    insertStudentInDB(inputViewModel._course_state.value, mStudentViewModel)
+                    Toast.makeText(context, "Added Student", Toast.LENGTH_SHORT).show()
+                    navController.navigate(NavGraph.Destinations.Home)
+                }
             }
         }
     ) {
@@ -74,7 +85,9 @@ fun AddView(navController: NavController) {
                 modifier = Modifier
                     .padding(all = 16.dp)
                     .fillMaxWidth(),
-                onValueChange = onValChange,
+                onValueChange= {
+                               onValChange(it)
+                },
                 singleLine = true,
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             )
@@ -82,9 +95,9 @@ fun AddView(navController: NavController) {
     }
 
     @Composable
-    fun ExtendedFAB(onClick: () -> Unit) {
+    fun ExtendedFAB(buttonMessage: String, onClick: () -> Unit) {
         ExtendedFloatingActionButton(
-            text = { Text("Save Course") },
+            text = { Text("${buttonMessage} Course") },
             onClick = onClick,
             elevation = FloatingActionButtonDefaults.elevation(8.dp)
         )
@@ -100,9 +113,21 @@ fun AddView(navController: NavController) {
         }
     }
 
-    class InputViewModel : ViewModel() {
-        private val _course: MutableLiveData<String> = MutableLiveData("")
+ fun upddateSelectedCourse( course_name : String, mStudentViewModel: StudentViewModel) {
+     mStudentViewModel.updateInputCourse(course_name, mStudentViewModel.setCourseCode.value )
+ }
+
+
+class InputViewModel(val mStudentViewModel: StudentViewModel) : ViewModel() {
+        private val _course: MutableState<String> = mStudentViewModel.setCourseNameUpdate
+
+
         val _course_state : MutableState<String> = mutableStateOf("")
+    init {
+        if (_course.value.isNullOrEmpty()) {
+            _course_state.value = ""
+        } else _course_state.value = _course.value
+    }
 
         fun onInputChange(newName: String) {
             _course_state.value = newName

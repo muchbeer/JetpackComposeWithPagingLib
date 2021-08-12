@@ -25,4 +25,8 @@ interface StudentDao {
 
     @Query("DELETE FROM student_table")
     suspend fun deleteAllStudent()
+
+    @Query("UPDATE student_table SET course_name =:course_name WHERE course_code=:course_code")
+    suspend fun updateCourse(course_name : String, course_code: Int)
+
 }
