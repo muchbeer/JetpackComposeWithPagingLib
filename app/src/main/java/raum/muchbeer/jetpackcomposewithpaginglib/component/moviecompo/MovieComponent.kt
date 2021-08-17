@@ -2,6 +2,7 @@ package raum.muchbeer.jetpackcomposewithpaginglib.component.moviecompo
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
@@ -14,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -28,8 +27,6 @@ import raum.muchbeer.jetpackcomposewithpaginglib.model.Movie
 import raum.muchbeer.jetpackcomposewithpaginglib.state.ErrorItem
 import raum.muchbeer.jetpackcomposewithpaginglib.state.LoadingItem
 import raum.muchbeer.jetpackcomposewithpaginglib.state.LoadingView
-import raum.muchbeer.jetpackcomposewithpaginglib.util.DEFAULT_IMAGE
-import raum.muchbeer.jetpackcomposewithpaginglib.util.loadPicture
 import raum.muchbeer.jetpackcomposewithpaginglib.viewmodel.MovieViewModel
 
 @Composable
@@ -97,7 +94,11 @@ fun MovieItem(movie: Movie) {
     Row(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+
+            }
+            ,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
