@@ -2,16 +2,17 @@ package raum.muchbeer.jetpackcomposewithpaginglib.component.moviecompo
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -91,22 +92,32 @@ fun MovieList(movies: Flow<PagingData<Movie>>) {
 
 @Composable
 fun MovieItem(movie: Movie) {
-    Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .clickable {
 
-            }
-            ,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+    Card(modifier = Modifier.fillMaxWidth()
+        .background(color = Color.LightGray)
+        .padding(8.dp),
+       // .border(width = 1.dp, color = Color.LightGray)
+    //    .clip(MaterialTheme.shapes.medium),
+        elevation = 15.dp
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .clickable {
 
-        MovieImage(
-            BuildConfig.LARGE_IMAGE_URL + movie.poster_path )
-        MovieTitle(movie)
+                }
+            ,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            MovieImage(
+                BuildConfig.LARGE_IMAGE_URL + movie.poster_path )
+            MovieTitle(movie)
+        }
     }
+
 }
 
 @Composable
@@ -121,7 +132,9 @@ fun MovieImage(
             transformations(CircleCropTransformation())
         }
     ), contentDescription = "",
-    modifier = Modifier.size(100.dp).padding(16.dp),
+    modifier = Modifier
+        .size(100.dp)
+        .padding(16.dp),
     contentScale = ContentScale.Crop)
 
 }
@@ -129,7 +142,9 @@ fun MovieImage(
 @Composable
 fun MovieTitle(movie: Movie) {
     Log.d("Movies", "THe titles are : ${movie.title}")
-    Column(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
+    Column(modifier = Modifier
+        .padding(8.dp)
+        .fillMaxWidth()) {
 
         Text(
             text = movie.title,
@@ -141,7 +156,9 @@ fun MovieTitle(movie: Movie) {
         Text(text = movie.overview,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(start = 16.dp).fillMaxWidth())
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .fillMaxWidth())
     }
 
 }
