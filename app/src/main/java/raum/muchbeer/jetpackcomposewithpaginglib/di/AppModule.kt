@@ -24,4 +24,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideStudentDao(db: StudentDatabase) = db.studentDao()
+
+    @Provides
+    @Singleton
+    fun provideSchoolDao(db : StudentDatabase) = db.schoolDao()
 }

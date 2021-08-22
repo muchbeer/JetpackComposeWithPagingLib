@@ -5,12 +5,14 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import raum.muchbeer.jetpackcomposewithpaginglib.model.SchoolModel
 import raum.muchbeer.jetpackcomposewithpaginglib.model.StudentModel
 
-@Database(entities = [StudentModel::class], version = 1, exportSchema = false)
+@Database(entities = [StudentModel::class, SchoolModel::class], version = 2, exportSchema = false)
 abstract class StudentDatabase : RoomDatabase(){
 
     abstract fun studentDao() : StudentDao
+    abstract fun schoolDao() : SchoolDao
 
     companion object {
 
@@ -26,7 +28,7 @@ abstract class StudentDatabase : RoomDatabase(){
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         StudentDatabase::class.java,
-                        "todo_list_database"
+                        "muchbeer_compose_database"
                     ).fallbackToDestructiveMigration()
                         .build()
 
